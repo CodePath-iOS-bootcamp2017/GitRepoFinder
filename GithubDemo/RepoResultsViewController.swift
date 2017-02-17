@@ -10,13 +10,15 @@ import UIKit
 import MBProgressHUD
 
 // Main ViewController
-class RepoResultsViewController: UIViewController {
+class RepoResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var searchBar: UISearchBar!
     var searchSettings = GithubRepoSearchSettings()
 
     var repos: [GithubRepo]!
 
+    @IBOutlet weak var repoResultsTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,7 +29,15 @@ class RepoResultsViewController: UIViewController {
         // Add SearchBar to the NavigationBar
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
-
+        
+        //tableview delegate and datasource
+        self.repoResultsTableView.dataSource = self
+        self.repoResultsTableView.delegate = self
+        
+        //table view cell size from autolayout
+        self.repoResultsTableView.estimatedRowHeight = 120
+        self.repoResultsTableView.rowHeight = UITableViewAutomaticDimension
+        
         // Perform the first search when the view controller first loads
         doSearch()
     }
@@ -40,6 +50,9 @@ class RepoResultsViewController: UIViewController {
         // Perform request to GitHub API to get the list of repositories
         GithubRepo.fetchRepos(searchSettings, successCallback: { (newRepos) -> Void in
 
+            self.repos = newRepos
+            self.repoResultsTableView.reloadData()
+            
             // Print the returned repositories to the output window
             for repo in newRepos {
                 print(repo)
@@ -47,9 +60,25 @@ class RepoResultsViewController: UIViewController {
 
             MBProgressHUD.hide(for: self.view, animated: true)
             }, error: { (error) -> Void in
-                print(error)
+                print(error.debugDescription)
         })
     }
+    
+    //implementing UITableViewDataSource methods
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "RepoTableViewCell", for: indexPath) as! RepoTableViewCell
+        cell.repo = self.repos[indexPath.row]
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.repos == nil{
+            return 0
+        }else{
+            return self.repos.count
+        }
+    }
+    
 }
 
 // SearchBar methods
