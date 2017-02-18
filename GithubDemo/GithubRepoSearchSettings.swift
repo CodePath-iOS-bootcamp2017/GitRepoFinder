@@ -12,6 +12,12 @@ import Foundation
 class GithubRepoSearchSettings {
     var searchString: String?
     var minStars = 0
+    var java = false
+    var python = false
+    var objectiveC = false
+    var swift = false
+    var javascript = false
+    var assembly = false
     
     init() {
         

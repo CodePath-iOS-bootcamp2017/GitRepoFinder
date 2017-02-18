@@ -46,10 +46,29 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! LanguagesTableViewCell
         tableView.deselectRow(at: indexPath, animated: true)
+        var newState: Bool
         if cell.tickImageView.isHidden{
            cell.tickImageView.isHidden = false
+           newState = true
         }else{
            cell.tickImageView.isHidden = true
+           newState = false
+        }
+        
+        switch(indexPath.row){
+        case 0: RepoResultsViewController.searchSettings.java = newState
+        case 1: RepoResultsViewController.searchSettings.swift = newState
+        case 2: RepoResultsViewController.searchSettings.objectiveC = newState
+        case 3: RepoResultsViewController.searchSettings.javascript = newState
+        case 4: RepoResultsViewController.searchSettings.assembly = newState
+        case 5: RepoResultsViewController.searchSettings.python = newState
+        default:
+            RepoResultsViewController.searchSettings.java = newState
+            RepoResultsViewController.searchSettings.swift = newState
+            RepoResultsViewController.searchSettings.objectiveC = newState
+            RepoResultsViewController.searchSettings.javascript = newState
+            RepoResultsViewController.searchSettings.assembly = newState
+            RepoResultsViewController.searchSettings.python = newState
         }
     }
     @IBAction func onSwitchStateChanged(_ sender: Any) {

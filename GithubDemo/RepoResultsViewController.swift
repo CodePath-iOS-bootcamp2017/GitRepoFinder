@@ -13,7 +13,7 @@ import MBProgressHUD
 class RepoResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var searchBar: UISearchBar!
-    var searchSettings = GithubRepoSearchSettings()
+    static var searchSettings = GithubRepoSearchSettings()
 
     var repos: [GithubRepo]!
 
@@ -48,7 +48,7 @@ class RepoResultsViewController: UIViewController, UITableViewDataSource, UITabl
         MBProgressHUD.showAdded(to: self.view, animated: true)
 
         // Perform request to GitHub API to get the list of repositories
-        GithubRepo.fetchRepos(searchSettings, successCallback: { (newRepos) -> Void in
+        GithubRepo.fetchRepos(RepoResultsViewController.searchSettings, successCallback: { (newRepos) -> Void in
 
             self.repos = newRepos
             self.repoResultsTableView.reloadData()
@@ -100,7 +100,7 @@ extension RepoResultsViewController: UISearchBarDelegate {
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchSettings.searchString = searchBar.text
+        RepoResultsViewController.searchSettings.searchString = searchBar.text
         searchBar.resignFirstResponder()
         doSearch()
     }
