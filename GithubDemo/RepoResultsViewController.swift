@@ -10,10 +10,10 @@ import UIKit
 import MBProgressHUD
 
 // Main ViewController
-class RepoResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class RepoResultsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SettingsPresentingViewControllerDelegate {
 
     var searchBar: UISearchBar!
-    static var searchSettings = GithubRepoSearchSettings()
+    var searchSettings = GithubRepoSearchSettings()
 
     var repos: [GithubRepo]!
 
@@ -22,14 +22,25 @@ class RepoResultsViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.setupSearchBar()
+        
+        self.setupTableView()
+        
+        // Perform the first search when the view controller first loads
+        doSearch()
+    }
+    
+    func setupSearchBar(){
         // Initialize the UISearchBar
         searchBar = UISearchBar()
         searchBar.delegate = self
-
+        
         // Add SearchBar to the NavigationBar
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
-        
+    }
+    
+    func setupTableView(){
         //tableview delegate and datasource
         self.repoResultsTableView.dataSource = self
         self.repoResultsTableView.delegate = self
@@ -37,18 +48,16 @@ class RepoResultsViewController: UIViewController, UITableViewDataSource, UITabl
         //table view cell size from autolayout
         self.repoResultsTableView.estimatedRowHeight = 120
         self.repoResultsTableView.rowHeight = UITableViewAutomaticDimension
-        
-        // Perform the first search when the view controller first loads
-        doSearch()
     }
 
     // Perform the search.
     fileprivate func doSearch() {
 
         MBProgressHUD.showAdded(to: self.view, animated: true)
-
+        
+        
         // Perform request to GitHub API to get the list of repositories
-        GithubRepo.fetchRepos(RepoResultsViewController.searchSettings, successCallback: { (newRepos) -> Void in
+        GithubRepo.fetchRepos(self.searchSettings, successCallback: { (newRepos) -> Void in
 
             self.repos = newRepos
             self.repoResultsTableView.reloadData()
@@ -79,6 +88,21 @@ class RepoResultsViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
     
+    func didSaveSettings(settings: GithubRepoSearchSettings) {
+        self.searchSettings = settings
+        self.doSearch()
+    }
+    
+    func didCancelSettings() {
+        self.doSearch()
+    }
+    
+    //Mark navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nc = segue.destination as! UINavigationController
+        let vc = nc.topViewController as! SettingsViewController
+        vc.setting = self.searchSettings
+    }
 }
 
 // SearchBar methods
@@ -96,11 +120,12 @@ extension RepoResultsViewController: UISearchBarDelegate {
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
+        self.doSearch()
         searchBar.resignFirstResponder()
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        RepoResultsViewController.searchSettings.searchString = searchBar.text
+        self.searchSettings.searchString = searchBar.text
         searchBar.resignFirstResponder()
         doSearch()
     }

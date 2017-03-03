@@ -89,6 +89,9 @@ class GithubRepo: CustomStringConvertible {
         if let searchString = settings.searchString {
             q = q + searchString
         }
+        if settings.minStars > 0{
+            q = q + " stars:>\(settings.minStars)"
+        }
         q = q + " stars:>\(settings.minStars)"
         params["q"] = q
         

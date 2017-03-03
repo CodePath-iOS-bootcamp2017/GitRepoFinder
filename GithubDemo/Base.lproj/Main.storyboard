@@ -139,7 +139,7 @@
                     <navigationItem key="navigationItem" id="x5q-EH-pP8">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="HhD-j5-9pz">
                             <connections>
-                                <segue destination="oay-oa-GrW" kind="show" id="M6A-gt-6wo"/>
+                                <segue destination="YP8-cC-thD" kind="presentation" id="M6A-gt-6wo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -172,6 +172,9 @@
                                             <constraint firstAttribute="width" constant="114" id="6hl-3K-RSd"/>
                                             <constraint firstAttribute="height" constant="30" id="Ro1-G8-yRg"/>
                                         </constraints>
+                                        <connections>
+                                            <action selector="onStarFilterChanged:" destination="oay-oa-GrW" eventType="valueChanged" id="tHG-Jc-q0m"/>
+                                        </connections>
                                     </slider>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iku-k7-ePe">
                                         <rect key="frame" x="380.66666666666674" y="25" width="10.333333333333314" height="21"/>
@@ -200,7 +203,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3W-DA-r2H">
                                 <rect key="frame" x="0.0" y="200" width="414" height="70"/>
                                 <subviews>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ql7-8M-TtV">
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="ql7-8M-TtV">
                                         <rect key="frame" x="343" y="20" width="51" height="31"/>
                                         <connections>
                                             <action selector="onSwitchStateChanged:" destination="oay-oa-GrW" eventType="valueChanged" id="ilk-Qt-B2t"/>
@@ -278,15 +281,28 @@
                             <constraint firstItem="WW5-Ax-nbZ" firstAttribute="leading" secondItem="leF-Ag-202" secondAttribute="leading" id="ys2-LC-ZrZ"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="kXP-HI-dLo">
+                        <barButtonItem key="leftBarButtonItem" title="Save" id="4OQ-b0-R3D">
+                            <connections>
+                                <action selector="onSaveTapped:" destination="oay-oa-GrW" id="Eoh-nQ-0vr"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Cancel" id="MLS-D5-5xh">
+                            <connections>
+                                <action selector="onCanelTapped:" destination="oay-oa-GrW" id="9N6-id-7v4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="filterSwitch" destination="ql7-8M-TtV" id="Vy2-Du-6LA"/>
                         <outlet property="languagesTableView" destination="7mk-SR-NYz" id="MTS-Zb-dKT"/>
+                        <outlet property="minStarsLabel" destination="Iku-k7-ePe" id="onw-c0-Sjs"/>
                         <outlet property="starsSlider" destination="Kuj-lu-NeT" id="osN-2w-E9R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2v-bI-YUM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1857.9710144927537" y="-558.42391304347825"/>
+            <point key="canvasLocation" x="2765.217391304348" y="-558.42391304347825"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FpP-oR-azb">
@@ -305,6 +321,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dru-y2-L7C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="132" y="-557"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iYf-Oy-ikz">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="YP8-cC-thD" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="aCR-7h-9Mf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="oay-oa-GrW" kind="relationship" relationship="rootViewController" id="Ync-up-uHH"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="agp-Jf-IfK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1857.9710144927537" y="-558.42391304347825"/>
         </scene>
     </scenes>
     <resources>

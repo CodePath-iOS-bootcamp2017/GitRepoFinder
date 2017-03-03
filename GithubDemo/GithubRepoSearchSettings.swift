@@ -9,9 +9,10 @@
 import Foundation
 
 // Model class that represents the user's search settings
-class GithubRepoSearchSettings {
+struct GithubRepoSearchSettings {
     var searchString: String?
     var minStars = 0
+    var searchByLanguage = false
     var java = false
     var python = false
     var objectiveC = false
